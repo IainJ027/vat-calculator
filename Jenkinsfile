@@ -20,6 +20,14 @@ pipeline {
                 }
             }
         }
+        stage('Generate Image reports') {
+            steps {
+                echo "====== Analysing image efficiency using dive ======"
+                sh "dive ${registry}"
+                echo "====== Analysing image vulnerabilities using grype ======"
+                sh "grype ${registry} | head"
+            }
+        }
         stage('Push Image') {
             steps {
                 script {
@@ -28,13 +36,6 @@ pipeline {
                         dockerImage.push("latest")
                     }
                 }
-            }
-        }
-        stage('Generate Image reports') {
-            steps {
-                sh "dive iainj027/vatcal:latest"
-                echo "===================================="
-                sh "grype iainj027/vatcal:latest | head"
             }
         }
         stage('Clean up') {

@@ -1,23 +1,37 @@
 pipeline {
     agent any
+    environment {
+        dockerCreds = credentials('dockerhub_login') // used to get the username for next var
+        registry = "${dockerCreds_USR}/vatcal"
+        registryCredentials = "dockerhub_login"
+        dockerImage = "" // empty var, will be written to later
+    }
     stages {
-        stage('Checkout') {
+        stage('Run Tests') {
             steps {
-                git url: 'https://github.com/IainJ027/vat-calculator.git',
-                branch: 'main'
-            }
-        }
-        stage('Build') {
-            steps {
-                sh 'echo TESTING CHANGE'
                 npm 'install'
-                npm 'run build'
+                npm 'test'
             }
         }
-        stage('Archive') {
+        stage('Build Image') {
             steps {
-                sh 'tar -czf build.tar.gz build'
-                archiveArtifacts 'build.tar.gz'
+                script {
+                    dockerImage = docker.build(registry)
+                }
+            }
+        }
+        stage('Push Image') {
+            steps {
+                script {
+                    docker.withRegistry("", registryCredentials) {
+                    dockerImage.push("${env.BUILD_NUMBER}")
+                    dockerImage.push("latest")
+                }
+            }
+        }
+        stage('Clean up') {
+            steps {
+                sh "docker image prune --all --force --filter 'until=48h'" // ensure we don't accrue too many out-of-date images
             }
         }
     }

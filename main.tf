@@ -1,3 +1,5 @@
+variable creds_file {}
+
 terraform {
   required_providers {
     aws = {

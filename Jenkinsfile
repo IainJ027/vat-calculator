@@ -52,7 +52,7 @@ pipeline {
                         sh 'ln $AWS_CREDENTIALS credentials'
                         sh """echo 'creds_file = "credentials"' > terraform.tfvars"""
                         sh 'terraform init'
-                        sh 'terraform apply'
+                        sh 'terraform apply --auto-approve'
                     }
                 }
             }

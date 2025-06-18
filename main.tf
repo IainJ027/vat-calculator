@@ -11,7 +11,7 @@ terraform {
 
 provider "aws" {
   shared_credentials_files = ["${var.creds_file}"]
-  region = "us-east-1"
+  region = "us-west-2"
 }
 resource "aws_instance" "docker_server" {
   ami = "resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"

@@ -23,9 +23,9 @@ pipeline {
         stage('Generate Image reports') {
             steps {
                 echo "====== Analysing image efficiency using dive ======"
-                sh "dive ${registry}"
+                sh "CI=true dive ${dockerImage.imageName()}"
                 echo "====== Analysing image vulnerabilities using grype ======"
-                sh "grype ${registry} | head"
+                sh "grype ${dockerImage.imageName()} | head"
             }
         }
         stage('Push Image') {

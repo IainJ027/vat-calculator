@@ -30,6 +30,11 @@ pipeline {
                 }
             }
         }
+        stage('Generate Image report') {
+            steps {
+                sh "dive iainj027/vatcal:latest"
+            }
+        }
         stage('Clean up') {
             steps {
                 sh "docker image prune --all --force --filter 'until=48h'" // ensure we don't accrue too many out-of-date images

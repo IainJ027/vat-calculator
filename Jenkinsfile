@@ -48,7 +48,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([file(credentialsId: awsCreds, variable:'AWS_CREDENTIALS')]) {
-                        sh 'echo "creds_file = $AWS_CREDENTIALS" > terraform.tfvars'
+                        sh 'rm credentials || true'
+                        sh 'ln $AWS_CREDENTIALS credentials'
+                        sh """echo 'creds_file = "credentials"' > terraform.tfvars"""
                         sh 'terraform init'
                         sh 'terraform apply'
                     }

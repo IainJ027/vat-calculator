@@ -19,5 +19,5 @@ resource "aws_instance" "docker_server" {
   tags = {
     Name = "DockerServer"
   }
-  user_data = "${file('init.sh')}"
+  user_data = "${file("init.sh")}"
 }

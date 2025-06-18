@@ -30,9 +30,11 @@ pipeline {
                 }
             }
         }
-        stage('Generate Image report') {
+        stage('Generate Image reports') {
             steps {
                 sh "dive iainj027/vatcal:latest"
+                echo "===================================="
+                sh "grype iainj027/vatcal:latest | head"
             }
         }
         stage('Clean up') {

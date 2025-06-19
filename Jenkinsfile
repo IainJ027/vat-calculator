@@ -48,8 +48,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh "cp -u /mnt/k3s/config config.yaml"
-                sh "kubectl apply -f kubernetes/deploy.yml"
-                sh "kubectl apply -f kubernetes/service.yml"
+                sh "kubectl apply -f Kubernetes/deploy.yml"
+                sh "kubectl apply -f Kubernetes/service.yml"
             }
         }
     }

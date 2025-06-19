@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vatcalc
+  labels:
+    app: vatcalc
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vatcalc
+  template:
+    metadata:
+      labels:
+        app: vatcalc
+    spec:
+      containers:
+        - name: vatcalc
+          image: iainj027/vatcal:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "8Mi"
+              cpu: "50m"
+            limits:
+              memory: "16Mi"
+              cpu: "100m"
+          ports:
+          - containerPort: 80

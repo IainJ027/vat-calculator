@@ -44,18 +44,5 @@ pipeline {
                 sh "docker image prune --all --force --filter 'until=48h'" // ensure we don't accrue too many out-of-date images
             }
         }
-        stage('Provision Server') {
-            steps {
-                script {
-                    withCredentials([file(credentialsId: awsCreds, variable:'AWS_CREDENTIALS')]) {
-                        sh 'rm credentials || true'
-                        sh 'ln $AWS_CREDENTIALS credentials'
-                        sh """echo 'creds_file = "credentials"' > terraform.tfvars"""
-                        sh 'terraform init'
-                        sh 'terraform apply --auto-approve'
-                    }
-                }
-            }
-        }
     }
 }

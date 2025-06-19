@@ -21,14 +21,14 @@ pipeline {
                 }
             }
         }
-        stage('Generate Image reports') {
-            steps {
-                echo "====== Analysing image efficiency using dive ======"
-                sh "CI=true dive ${dockerImage.imageName()}"
-                echo "====== Analysing image vulnerabilities using grype ======"
-                sh "grype ${dockerImage.imageName()} | head"
-            }
-        }
+        //stage('Generate Image reports') {
+          //  steps {
+           //     echo "====== Analysing image efficiency using dive ======"
+             //   sh "CI=true dive ${dockerImage.imageName()}"
+             //   echo "====== Analysing image vulnerabilities using grype ======"
+              //  sh "grype ${dockerImage.imageName()} | head"
+           // }
+       // }
         stage('Push Image') {
             steps {
                 script {
